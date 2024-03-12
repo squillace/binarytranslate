@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "build main.wasm",
+          "type": "shell",
+          "command": "cargo build --target=wasm32-wasi",
+          "group": "build",
+          "presentation": {
+              "reveal": "always",
+              "panel": "new"
+          }
+      }
+  ]
+}
