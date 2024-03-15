@@ -1,27 +1,31 @@
-
+use wasm_bindgen::prelude::*;
 fn main() {
     println!("Hello, world!");
-    let word = "convert to binary";
-    let binary_response = String::from_utf8(word_to_binary(word)).unwrap();
-    println!("{}", binary_response);
+    let word = "(*^(*&^convert";
+    let my_response = word_to_binary(word);
+    match my_response {
+        Ok(_) => println!("yay, it worked!"),
+        Err(err) => println!("oh no: {:?}", err),
+    };
+
 }
 
+pub fn word_to_binary(word: &str) -> Result<Vec<u8>, JsValue> {
+    // check if the input contains only alphanumeric characters, no special chars allowed
+    if !word.chars().all(|c| c.is_ascii_alphanumeric()) {
+        return Err(JsValue::from_str("Oooops! There was an error. But what errror?!?!?!"));
+    }
 
-
-
-pub fn word_to_binary(word: &str) -> Vec<u8> {
     let mut binary_data = Vec::new();
 
     for ch in word.chars() {
         let char_code = ch as u8;
         let binary_representation = format!("{:08b}", char_code);
 
-        let padded_binary = binary_representation
-            .chars()
-            .map(|c| c.to_digit(10).unwrap() as u8);
+        let padded_binary = binary_representation.chars().map(|c| c.to_digit(10).unwrap() as u8);
 
         binary_data.extend(padded_binary);
     }
 
-    binary_data
+    Ok(binary_data)
 }
